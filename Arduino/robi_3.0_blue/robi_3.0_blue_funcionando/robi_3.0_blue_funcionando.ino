@@ -163,7 +163,7 @@ BLYNK_WRITE(V1)
     terminal.println("Inicio");
   }
   
-  if (String("sex") == param.asStr()) {
+  if (String("x") == param.asStr()) {
 
     do {
 
@@ -192,7 +192,7 @@ BLYNK_WRITE(V1)
    //   funciona = param.asStr();
     }
   //  while (funciona != "fin");
-    while (param.asStr() == "sex");
+    while (param.asStr() == "x");
 
   }
   
