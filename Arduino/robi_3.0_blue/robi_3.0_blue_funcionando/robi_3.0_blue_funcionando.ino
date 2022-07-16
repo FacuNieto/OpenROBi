@@ -1,3 +1,24 @@
+// Copyright 2022 Facundo Nieto
+
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+
+//     http://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Este código permite la utilización de la interfaz grafica de Blynk para el control del brazo robótico
+// La interfaz cuenta con potenciometros lineales digitales y una consola para el ingreso de comandos
+// Se pueden mover todos los actuadores en todo su rango de movimiento y tambien se pueden realizar movimientos/poses predefinidos
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 //////////Blue///////////
 #define BLYNK_USE_DIRECT_CONNECT
 #define BLYNK_PRINT DebugSerial
@@ -95,8 +116,6 @@ char TECLA;       // almacena la tecla presionada
 String funciona; 
 /////////Variables///////////
 
-
-
 ////////Funciones////////////
 
 BLYNK_WRITE(V1)
@@ -163,7 +182,7 @@ BLYNK_WRITE(V1)
     terminal.println("Inicio");
   }
   
-  if (String("x") == param.asStr()) {
+  if (String("x") == param.asStr()) { //ejemplo de rutina predefinida
 
     do {
 
@@ -344,7 +363,6 @@ void moverMotor( int pote, int motor)
   potVal = analogRead(pote);
 
   //conversor
-  //pulse_wide = map(potVal, 0, 1048, 250, 3000);
   pulse_wide = map(potVal, 0, 1023, 100, 2300);
   pulse_width = int (float(pulse_wide ) / 1000000 * FREQUENCY * 4096);
 
@@ -363,7 +381,6 @@ void moverMotorInverso( int pote, int motor)
   potVal = analogRead(pote);
 
   //conversor
-  //pulse_wide = map(potVal, 0, 1048, 250, 3000);
   pulse_wide = map(potVal, 0, 1023, 100, 2300);
   pulse_width1 = int (float(pulse_wide ) / 1000000 * FREQUENCY * 4096);
   pulse_width2 = map (pulse_width1, 150 , 500 , 500, 150);
@@ -383,14 +400,13 @@ void moverMotorDoble( int pote, int motor1, int motor2)
   potVal = analogRead(pote);
 
   //conversor
-  //pulse_wide = map(potVal, 0, 1048, 250, 3000);
   pulse_wide = map(potVal, 0, 1023, 250, 2300);
   ancho_pulso1 = int (float(pulse_wide ) / 1000000 * FREQUENCY * 4096);
   ancho_pulso2 = map (ancho_pulso1, 150 , 500 , 500, 150);
   pwm.setPWM(motor1, 0, ancho_pulso1);
   pwm.setPWM(motor2, 0, ancho_pulso2);
   Serial.println(potVal);
-  // delay (10);
+
 
 }
 
@@ -398,13 +414,8 @@ void moverMotorAcelerometro( int ejeacelerometro, int motor)
 {
   int pulse_wide, pulse_width;
 
-  // lector de valores del potenciometro
-
-
-  //conversor
-  //pulse_wide = map(potVal, 0, 1048, 250, 3000);
   pulse_wide = map(ejeacelerometro, -4096, 4096, 100, 2300);//acele
-  //pulse_wide = map(ejeacelerometro, -32768, 32768, 100, 2300);//gyro
+
   pulse_width = int (float(pulse_wide ) / 1000000 * FREQUENCY * 4096);
 
   pwm.setPWM(motor, 0, pulse_width);
@@ -415,15 +426,8 @@ void moverMotorDobleAcelerometro( int ejeacelerometro, int motor1, int motor2)
 {
   int pulse_wide, ancho_pulso1, ancho_pulso2;
 
-  // lector de valores del potenciometro
-
-  // potVal = analogRead(pote);
-
-  //conversor
-  //pulse_wide = map(potVal, 0, 1048, 250, 3000);
-  // pulse_wide = map(ejeacelerometro, 0, 1023, 250, 2300);
   pulse_wide = map(ejeacelerometro, -4096, 4096, 250, 2300);
-  // pulse_wide = map(ejeacelerometro, -32768, 32768, 100, 2300);//gyro
+
 
   ancho_pulso1 = int (float(pulse_wide ) / 1000000 * FREQUENCY * 4096);
   ancho_pulso2 = map (ancho_pulso1, 150 , 500 , 500, 150);
@@ -433,22 +437,13 @@ void moverMotorDobleAcelerometro( int ejeacelerometro, int motor1, int motor2)
   Serial.println(ancho_pulso1);
   Serial.println(ancho_pulso2);
 
-  // delay (10);
 
 }
 void moverMotorDobleBlue( int ejeacelerometro, int motor1, int motor2)
 {
   int pulse_wide, ancho_pulso1, ancho_pulso2;
 
-  // lector de valores del potenciometro
-
-  // potVal = analogRead(pote);
-
-  //conversor
-  //pulse_wide = map(potVal, 0, 1048, 250, 3000);
-  // pulse_wide = map(ejeacelerometro, 0, 1023, 250, 2300);
   pulse_wide = map(ejeacelerometro, 0, 255, 250, 2300);
-  // pulse_wide = map(ejeacelerometro, -32768, 32768, 100, 2300);//gyro
 
   ancho_pulso1 = int (float(pulse_wide ) / 1000000 * FREQUENCY * 4096);
   ancho_pulso2 = map (ancho_pulso1, 150 , 500 , 500, 150);
@@ -465,9 +460,7 @@ void moverMotorDobleBlue( int ejeacelerometro, int motor1, int motor2)
 void moverMotorBlue( int pot, int motor)
 {
   int pulse_wide, pulse_width;
-  // lector de valores del potenciometro
-  //conversor
-  //pulse_wide = map(potVal, 0, 1048, 250, 3000);
+
   pulse_wide = map(pot, 0, 255, 100, 2300);
   pulse_width = int (float(pulse_wide ) / 1000000 * FREQUENCY * 4096);
 
@@ -480,9 +473,6 @@ void moverMotorInversoBlue( int pot, int motor)
 {
   int pulse_wide, pulse_width1, pulse_width2;
 
-  // lector de valores del potenciometro
-  //conversor
-  //pulse_wide = map(potVal, 0, 1048, 250, 3000);
   pulse_wide = map(pot, 0, 255, 100, 2300);
   pulse_width1 = int (float(pulse_wide ) / 1000000 * FREQUENCY * 4096);
   pulse_width2 = map (pulse_width1, 150 , 500 , 500, 150);
@@ -505,14 +495,14 @@ void setup()
   // Blynk will work through Serial
   // 9600 is for HC-06. For HC-05 default speed is 38400
   // Do not read or write this serial manually in your sketch
-  //Como hacemos para laburar en 38400??????
+
   Serial.begin(9600);
   Blynk.begin(Serial, auth);
   //////////// Blynk ////////////
 
   //////////// Servos ////////////
   pwm.begin();
-  pwm.setPWMFreq(60);  // Revisar frecuencia 50 o 60 Hz
+  pwm.setPWMFreq(50);  // Revisar frecuencia 50 o 60 Hz
   //////////// Servos ////////////
 
   //////////acelerometro/////////
@@ -534,7 +524,7 @@ void setup()
   // Escribimos en el terminal //
   terminal.println("Iniciando ROBi");
   terminal.println(F("---------"));
-  terminal.println("ROBi 2.0 Esta Listo!");
+  terminal.println("ROBi 3.0 Esta Listo!");
   terminal.println(F(";) ;) ;) ;) ;)"));
   terminal.flush();
 }
