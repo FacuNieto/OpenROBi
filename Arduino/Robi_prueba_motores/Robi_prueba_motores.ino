@@ -1,3 +1,22 @@
+// Copyright 2022 Facundo Nieto
+
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+
+//     http://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #include <SPI.h>
 
 //////////Servos/////////
@@ -205,7 +224,6 @@ void moverMotorDoblePoteCustom( int pote, int motor1, int motor2, int bajo, int 
 {
   int pulse_wide, ancho_pulso1, ancho_pulso2, potVal;
 
-  // lector de valores del potenciometro
 
   potVal = analogRead(pote);
 
@@ -225,11 +243,9 @@ void moverMotorDobleValorCustom( int valor, int motor1, int motor2, int bajo, in
 {
   int pulse_wide, ancho_pulso1, ancho_pulso2, potVal;
 
-  // lector de valores del potenciometro
 
   //  potVal = analogRead(pote);
 
-  //conversor
 //  pulse_wide = map(valor, bajo, alto, 150, 2700);
   pulse_wide = map(valor, bajo, alto, 1425, 2700);
 
@@ -246,9 +262,6 @@ void moverMotorDobleEntrada( int entrada, int motor1, int motor2)
 {
   int pulse_wide, ancho_pulso1, ancho_pulso2;
 
-  // lector de valores del potenciometro
-
-  // potVal = analogRead(pote);
 
   //conversor
   //pulse_wide = map(potVal, 0, 1048, 250, 3000);
@@ -265,64 +278,6 @@ void moverMotorDobleEntrada( int entrada, int motor1, int motor2)
   Serial.println(ancho_pulso2);
 
   // delay (10);
-
-}
-
-void moverMotorDobleBlue( int ejeacelerometro, int motor1, int motor2)
-{
-  int pulse_wide, ancho_pulso1, ancho_pulso2;
-
-  // lector de valores del potenciometro
-
-  // potVal = analogRead(pote);
-
-  //conversor
-  //pulse_wide = map(potVal, 0, 1048, 250, 3000);
-  // pulse_wide = map(ejeacelerometro, 0, 1023, 250, 2300);
-  pulse_wide = map(ejeacelerometro, 0, 255, 250, 2300);
-  // pulse_wide = map(ejeacelerometro, -32768, 32768, 100, 2300);//gyro
-
-  ancho_pulso1 = int (float(pulse_wide ) / 1000000 * FREQUENCY * 4096);
-  ancho_pulso2 = map (ancho_pulso1, 150 , 500 , 500, 150);
-  ancho_pulso2 = ancho_pulso2 + 30; //correccion
-  pwm.setPWM(motor1, 0, ancho_pulso1);
-  pwm.setPWM(motor2, 0, ancho_pulso2);
-  Serial.println(ancho_pulso1);
-  Serial.println(ancho_pulso2);
-
-  // delay (10);
-
-}
-
-
-
-void moverMotorBlue( int pot, int motor)
-{
-  int pulse_wide, pulse_width;
-  // lector de valores del potenciometro
-  //conversor
-  //pulse_wide = map(potVal, 0, 1048, 250, 3000);
-  pulse_wide = map(pot, 0, 255, 100, 2300);
-  pulse_width = int (float(pulse_wide ) / 1000000 * FREQUENCY * 4096);
-
-  pwm.setPWM(motor, 0, pulse_width);
-  Serial.println(pot);
-
-}
-
-void moverMotorInversoBlue( int pot, int motor)
-{
-  int pulse_wide, pulse_width1, pulse_width2;
-
-  // lector de valores del potenciometro
-  //conversor
-  //pulse_wide = map(potVal, 0, 1048, 250, 3000);
-  pulse_wide = map(pot, 0, 255, 100, 2300);
-  pulse_width1 = int (float(pulse_wide ) / 1000000 * FREQUENCY * 4096);
-  pulse_width2 = map (pulse_width1, 150 , 500 , 500, 150);
-
-  pwm.setPWM(motor, 0, pulse_width2);
-  Serial.println(pot);
 
 }
 
@@ -442,54 +397,5 @@ void loop() {
   moverMotorValorMANOANTERIORCustom2( c5,  100,0);
 
 
-  ////moverMotorPote( 0, 0);
-
-//  moverMotorValorCustomMG90( Valorfiltrado1, 5, -150, 999);
-//  moverMotorValorMANOANTERIORCustom2( Valorfiltrado1,  -150, 1000);
-//  moverMotorDobleValorCustom( Valorfiltrado1, 1, 2, -900, 1000 );
-//  moverMotorDobleValorCustom( Valorfiltrado1, 3, 4, -1000, 1000 );
-
-
-
-//suavizador
-delay(10);
-//suavizador
-
-// moverMotorValorCustom2( Valorfiltrado2, 15, -150, 999);
-//  moverMotorDoblePote( 1, 1, 2);
-  //moverMotorDobleValorCustom( Valorfiltrado2, 1, 2, 400, 710 );//flexo extensión deltoides anterior
-  ////moverMotorDoblePote( 2, 3, 4);
-  //moverMotorDobleValorCustom( Valorfiltrado3, 3, 4, 190, 600 );//flexo extensión articulación glenohumeral
-  ////moverMotorPote( 3, 5);
-  //moverMotorValorCustom( Valorfiltrado4, 5, 0, 650);
-  ////moverMotorPote( 4, 6);
-  //moverMotorValorCustom(Valorfiltrado5, 6, 20, 500);
-  ////moverMotorPote( 5, 7);
-
-
-  //      for (pos = 250; pos <= 750; pos += 1) { // bajada
-  //
-  //        moverMotorEntrada( pos, 0);
-  //        moverMotorDobleEntrada( pos+500, 1, 2);
-  ////        pospri = map(pos, 100, 600, 600, 100);
-  ////        pwm.setPWM(0, 0, posz  = pos);
-  ////        pwm.setPWM(1, 0, posx  = pos);
-  ////        pwm.setPWM(2, 0, posxX = pospri);
-  ////        pwm.setPWM(3, 0, posy  = pos);
-  ////        pwm.setPWM(4, 0, posyY = pospri);
-  //        delay(10);
-  //      }
-  //      for (pos = 750; pos >= 250; pos -= 1) { // bajada
-  //
-  //        moverMotorEntrada( pos, 0);
-  //        moverMotorDobleEntrada( pos-500, 1, 2);
-  ////        pospri = map(pos, 100, 600, 600, 100);
-  ////        pwm.setPWM(0, 0, posz  = pos);
-  ////        pwm.setPWM(1, 0, posx  = pos);
-  ////        pwm.setPWM(2, 0, posxX = pospri);
-  ////        pwm.setPWM(3, 0, posy  = pos);
-  ////        pwm.setPWM(4, 0, posyY = pospri);
-  //        delay(10);
-  //      }
 
 }
